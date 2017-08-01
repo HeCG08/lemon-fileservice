@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: fileservice
+    
+server:
+  port: 8066
+  use-forward-headers: false
+  
+fdfs:
+  charset: UTF-8
+  httpAntiStealToken: false
+  connectTimeout: 20
+  networkTimeout: 30
+  trackerServers:
+    - 10.200.6.3:22122
