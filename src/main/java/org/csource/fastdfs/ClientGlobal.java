@@ -9,7 +9,7 @@
 package org.csource.fastdfs;
 
 import org.csource.common.IniFileReader;
-import org.csource.common.MyException;
+import org.csource.common.FastdfsException;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class ClientGlobal
 	* load global variables
 	* @param conf_filename config filename
 	*/
-	public static void init(String conf_filename) throws FileNotFoundException, IOException, MyException
+	public static void init(String conf_filename) throws FileNotFoundException, IOException, FastdfsException
 	{
   		IniFileReader iniReader;
   		String[] szTrackerServers;
@@ -73,7 +73,7 @@ public class ClientGlobal
   		szTrackerServers = iniReader.getValues("tracker_server");
   		if (szTrackerServers == null)
   		{
-  			throw new MyException("item \"tracker_server\" in " + conf_filename + " not found");
+  			throw new FastdfsException("item \"tracker_server\" in " + conf_filename + " not found");
   		}
   		
   		InetSocketAddress[] tracker_servers = new InetSocketAddress[szTrackerServers.length];
@@ -82,7 +82,7 @@ public class ClientGlobal
   			parts = szTrackerServers[i].split("\\:", 2);
   			if (parts.length != 2)
   			{
-  				throw new MyException("the value of item \"tracker_server\" is invalid, the correct format is host:port");
+  				throw new FastdfsException("the value of item \"tracker_server\" is invalid, the correct format is host:port");
   			}
   			
   			tracker_servers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));
@@ -100,18 +100,18 @@ public class ClientGlobal
 	/**
 	 * 初始化fdfs
 	 */
-	public static void init(FDFSConfig fdfsConfig) throws MyException {
+	public static void init(FDFSConfig fdfsConfig) {
 		g_connect_timeout = fdfsConfig.getConnectTimeout() * 1000; //millisecond
 		g_network_timeout = fdfsConfig.getNetworkTimeout() * 1000; //millisecond
 		g_charset = fdfsConfig.getCharset();
 		if (fdfsConfig.getTrackerServers() == null || fdfsConfig.getTrackerServers().length==0) {
-			throw new MyException("item \"tracker_server\" not found");
+			throw new FastdfsException("item \"tracker_server\" not found");
 		}
 		InetSocketAddress[] tracker_servers = new InetSocketAddress[fdfsConfig.getTrackerServers().length];
 		for (int i=0; i<fdfsConfig.getTrackerServers().length; i++)	{
 			String[] parts = fdfsConfig.getTrackerServers()[i].split("\\:", 2);
 			if (parts.length != 2) {
-				throw new MyException("the value of item \"tracker_server\" is invalid, the correct format is host:port");
+				throw new FastdfsException("the value of item \"tracker_server\" is invalid, the correct format is host:port");
 			}
 			tracker_servers[i] = new InetSocketAddress(parts[0].trim(), Integer.parseInt(parts[1].trim()));
 		}

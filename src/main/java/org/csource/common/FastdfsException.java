@@ -13,13 +13,13 @@ package org.csource.common;
 * @author Happy Fish / YuQing
 * @version Version 1.0
 */
-public class MyException extends Exception
+public class FastdfsException extends RuntimeException
 {
-    public MyException()
+    public FastdfsException()
     {
     }
     
-    public MyException(String message)
+    public FastdfsException(String message)
     {
     		super(message);
     }

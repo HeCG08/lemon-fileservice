@@ -2,8 +2,11 @@ package cn.lemon.fileservice.service.fdfs;
 
 import cn.lemon.fileservice.service.IFileClient;
 import cn.lemon.framework.utils.ImageUtil;
-import org.csource.common.MyException;
+
+import org.csource.common.FastdfsException;
 import org.csource.common.NameValuePair;
+import org.csource.fastdfs.ClientGlobal;
+import org.csource.fastdfs.FDFSConfig;
 import org.csource.fastdfs.StorageClient1;
 import org.csource.fastdfs.StorageServer;
 import org.csource.fastdfs.TrackerClient;
@@ -12,7 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,12 +32,24 @@ import java.io.IOException;
 @Service("fastDFSClient")
 public class FastDFSClient implements IFileClient {
     static Logger logger = LoggerFactory.getLogger(FastDFSClient.class);
-
+    @Resource(name="fdfsConfig")
+    private FDFSConfig fdfsConfig;
+    
+    /** 
+     * 构造方法执行后，初始化fastdfs配置 
+     */
+    @PostConstruct
+    public void init() {
+    	logger.info("init fastdfs config.");
+    	ClientGlobal.init(fdfsConfig);
+    }
+    
     /**
      * 上传文件
      */
     @Override
     public String uploadFile(byte[] fileBytes, String ext) throws IOException {
+    	
         TrackerClient tracker = new TrackerClient();
         TrackerServer trackerServer = tracker.getConnection();
         StorageServer storageServer = tracker.getStoreStorage(trackerServer);
@@ -39,7 +57,7 @@ public class FastDFSClient implements IFileClient {
         try{
             StorageClient1 client = new StorageClient1(trackerServer, storageServer);
             fileId = client.upload_file1(fileBytes, ext, null);
-        } catch (MyException e) {
+        } catch (FastdfsException e) {
             logger.error("fastdfs文件传输失败, {}", e.getMessage());
             throw new IllegalArgumentException("fastdfs文件传输失败");
         } finally{
@@ -66,7 +84,7 @@ public class FastDFSClient implements IFileClient {
         try{
             StorageClient1 client = new StorageClient1(trackerServer, storageServer);
             files = client.download_file1(filePath);
-        } catch (MyException e) {
+        } catch (FastdfsException e) {
             logger.error("下载资源文件失败, {}", e.getMessage());
             return null;
         } finally{
@@ -134,7 +152,7 @@ public class FastDFSClient implements IFileClient {
                     StorageClient1 client = new StorageClient1(trackerServer, storageServer);
                     NameValuePair metaList[] = client.get_metadata1(filePath);
                     client.upload_file1(filePath, prefixName, buffer, ext, metaList);
-                } catch (MyException e) {
+                } catch (FastdfsException e) {
                     logger.error("上传缩放资源文件失败, {}", e.getMessage());
                     return null;
                 } finally{

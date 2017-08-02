@@ -8,7 +8,7 @@
 
 package org.csource.fastdfs;
 
-import org.csource.common.MyException;
+import org.csource.common.FastdfsException;
 import org.csource.common.NameValuePair;
 
 import java.io.IOException;
@@ -477,7 +477,7 @@ public class ProtoCommon
 * @param secret_key the secret key
 * @return token string
 */
- public static String getToken(String remote_filename, int ts, String secret_key) throws UnsupportedEncodingException, NoSuchAlgorithmException, MyException
+ public static String getToken(String remote_filename, int ts, String secret_key) throws UnsupportedEncodingException, NoSuchAlgorithmException, FastdfsException
  {
  	byte[] bsFilename = remote_filename.getBytes(ClientGlobal.g_charset);
  	byte[] bsKey = secret_key.getBytes(ClientGlobal.g_charset);
@@ -499,14 +499,14 @@ public class ProtoCommon
 * @return slave filename string
 */
  public static String genSlaveFilename(String master_filename, 
-                String prefix_name, String ext_name) throws MyException
+                String prefix_name, String ext_name) throws FastdfsException
  {
     String true_ext_name;
     int dotIndex;
 
     if (master_filename.length() < 28 + FDFS_FILE_EXT_NAME_MAX_LEN)
     {
-            throw new MyException("master filename \"" + master_filename + "\" is invalid");
+            throw new FastdfsException("master filename \"" + master_filename + "\" is invalid");
     }
 
     dotIndex = master_filename.indexOf('.', master_filename.length() - (FDFS_FILE_EXT_NAME_MAX_LEN + 1));
@@ -539,7 +539,7 @@ public class ProtoCommon
 
     if (true_ext_name.length() == 0 && prefix_name.equals("-m"))
     {
-        throw new MyException("prefix_name \"" + prefix_name + "\" is invalid");
+        throw new FastdfsException("prefix_name \"" + prefix_name + "\" is invalid");
     }
 
     if (dotIndex < 0)

@@ -9,7 +9,7 @@
 package org.csource.fastdfs;
 
 import org.csource.common.Base64;
-import org.csource.common.MyException;
+import org.csource.common.FastdfsException;
 import org.csource.common.NameValuePair;
 
 import java.io.*;
@@ -104,7 +104,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String local_filename, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_file(group_name, local_filename, file_ext_name, meta_list);
@@ -122,7 +122,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	protected String[] upload_file(String group_name, String local_filename, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final byte cmd = ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE;
 		return this.upload_file(cmd, group_name, local_filename, file_ext_name, meta_list);
@@ -141,7 +141,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	protected String[] upload_file(byte cmd, String group_name, String local_filename, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		File f = new File(local_filename);
 		FileInputStream fis = new FileInputStream(f);
@@ -179,7 +179,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(byte[] file_buff,	int offset, int length, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_file(group_name, file_buff, offset, length, file_ext_name, meta_list);
@@ -199,7 +199,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String group_name, byte[] file_buff, int offset, int length,	
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, group_name, null, null, file_ext_name, 
 		           length, new UploadBuff(file_buff, offset, length), meta_list);
@@ -216,7 +216,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(byte[] file_buff, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_file(group_name, file_buff, 0, file_buff.length, file_ext_name, meta_list);
@@ -234,7 +234,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String group_name, byte[] file_buff,	
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_FILE, group_name, null, null, file_ext_name, 
 		           file_buff.length, new UploadBuff(file_buff, 0, file_buff.length), meta_list);
@@ -254,7 +254,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String group_name, long file_size, UploadCallback callback, 
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String master_filename = null;
 		final String prefix_name = null;
@@ -277,13 +277,13 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String group_name, String master_filename, String prefix_name, 
-         String local_filename, String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+         String local_filename, String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		if ((group_name == null || group_name.length() == 0) || 
 		    (master_filename == null || master_filename.length() == 0) ||
 		    (prefix_name == null))
 		{
-			throw new MyException("invalid arguement");
+			throw new FastdfsException("invalid arguement");
 		}
 		
 		File f = new File(local_filename);
@@ -323,13 +323,13 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_file(String group_name, String master_filename, String prefix_name, 
-	       byte[] file_buff, String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       byte[] file_buff, String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		if ((group_name == null || group_name.length() == 0) || 
 		    (master_filename == null || master_filename.length() == 0) ||
 		    (prefix_name == null))
 		{
-			throw new MyException("invalid arguement");
+			throw new FastdfsException("invalid arguement");
 		}
 
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename, prefix_name, 
@@ -353,13 +353,13 @@ public class StorageClient
 	*/
 	public String[] upload_file(String group_name, String master_filename, String prefix_name, 
 	       byte[] file_buff, int offset, int length, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		if ((group_name == null || group_name.length() == 0) || 
 		    (master_filename == null || master_filename.length() == 0) ||
 		    (prefix_name == null))
 		{
-			throw new MyException("invalid arguement");
+			throw new FastdfsException("invalid arguement");
 		}
 
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename, prefix_name, 
@@ -382,7 +382,7 @@ public class StorageClient
 	*/
 	public String[] upload_file(String group_name, String master_filename, 
 	       String prefix_name, long file_size, UploadCallback callback, 
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_SLAVE_FILE, group_name, master_filename, prefix_name, 
            file_ext_name, file_size, callback, meta_list);
@@ -399,7 +399,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(String local_filename, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_appender_file(group_name, local_filename, file_ext_name, meta_list);
@@ -417,7 +417,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	protected String[] upload_appender_file(String group_name, String local_filename, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final byte cmd = ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE;
 		return this.upload_file(cmd, group_name, local_filename, file_ext_name, meta_list);
@@ -436,7 +436,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(byte[] file_buff,	int offset, int length, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_appender_file(group_name, file_buff, offset, length, file_ext_name, meta_list);
@@ -456,7 +456,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(String group_name, byte[] file_buff, int offset, int length,	
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE, group_name, null, null, file_ext_name, 
 		           length, new UploadBuff(file_buff, offset, length), meta_list);
@@ -473,7 +473,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(byte[] file_buff, String file_ext_name, 
-	       NameValuePair[] meta_list) throws IOException, MyException
+	       NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String group_name = null;
 		return this.upload_appender_file(group_name, file_buff, 0, file_buff.length, file_ext_name, meta_list);
@@ -491,7 +491,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(String group_name, byte[] file_buff,	
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		return this.do_upload_file(ProtoCommon.STORAGE_PROTO_CMD_UPLOAD_APPENDER_FILE, group_name, null, null, file_ext_name, 
 		           file_buff.length, new UploadBuff(file_buff, 0, file_buff.length), meta_list);
@@ -510,7 +510,7 @@ public class StorageClient
 	*         return null if fail
 	*/
 	public String[] upload_appender_file(String group_name, long file_size, UploadCallback callback, 
-	       String file_ext_name, NameValuePair[] meta_list) throws IOException, MyException
+	       String file_ext_name, NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		final String master_filename = null;
 		final String prefix_name = null;
@@ -526,7 +526,7 @@ public class StorageClient
 	* @param local_filename local filename to append
 	* @return 0 for success, != 0 for error (error no)
 	*/
-	public int append_file(String group_name, String appender_filename, String local_filename) throws IOException, MyException
+	public int append_file(String group_name, String appender_filename, String local_filename) throws IOException, FastdfsException
 	{
 		File f = new File(local_filename);
 		FileInputStream fis = new FileInputStream(f);
@@ -548,7 +548,7 @@ public class StorageClient
 	* @param file_buff file content/buff
 	* @return 0 for success, != 0 for error (error no)
 	*/
-	public int append_file(String group_name, String appender_filename, byte[] file_buff) throws IOException, MyException
+	public int append_file(String group_name, String appender_filename, byte[] file_buff) throws IOException, FastdfsException
 	{
 		return this.do_append_file(group_name, appender_filename, file_buff.length, new UploadBuff(file_buff, 0, file_buff.length));
 	}
@@ -563,7 +563,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int append_file(String group_name, String appender_filename, 
-	       byte[] file_buff, int offset, int length) throws IOException, MyException
+	       byte[] file_buff, int offset, int length) throws IOException, FastdfsException
 	{
 		return this.do_append_file(group_name, appender_filename, length, new UploadBuff(file_buff, offset, length));
 	}
@@ -577,7 +577,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int append_file(String group_name, String appender_filename, 
-	       long file_size, UploadCallback callback) throws IOException, MyException
+	       long file_size, UploadCallback callback) throws IOException, FastdfsException
 	{
 		return this.do_append_file(group_name, appender_filename, file_size, callback);
 	}
@@ -591,7 +591,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int modify_file(String group_name, String appender_filename, 
-			long file_offset, String local_filename) throws IOException, MyException
+			long file_offset, String local_filename) throws IOException, FastdfsException
 	{
 		File f = new File(local_filename);
 		FileInputStream fis = new FileInputStream(f);
@@ -616,7 +616,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int modify_file(String group_name, String appender_filename, 
-			long file_offset, byte[] file_buff) throws IOException, MyException
+			long file_offset, byte[] file_buff) throws IOException, FastdfsException
 	{
 		return this.do_modify_file(group_name, appender_filename, file_offset, 
 				file_buff.length, new UploadBuff(file_buff, 0, file_buff.length));
@@ -633,7 +633,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int modify_file(String group_name, String appender_filename, 
-	       long file_offset, byte[] file_buff, int buffer_offset, int buffer_length) throws IOException, MyException
+	       long file_offset, byte[] file_buff, int buffer_offset, int buffer_length) throws IOException, FastdfsException
 	{
 		return this.do_modify_file(group_name, appender_filename, file_offset, 
 				buffer_length, new UploadBuff(file_buff, buffer_offset, buffer_length));
@@ -649,7 +649,7 @@ public class StorageClient
 	* @return 0 for success, != 0 for error (error no)
 	*/
 	public int modify_file(String group_name, String appender_filename, 
-	       long file_offset, long modify_size, UploadCallback callback) throws IOException, MyException
+	       long file_offset, long modify_size, UploadCallback callback) throws IOException, FastdfsException
 	{
 		return this.do_modify_file(group_name, appender_filename, file_offset, 
 				modify_size, callback);
@@ -672,7 +672,7 @@ public class StorageClient
 	*/
 	protected String[] do_upload_file(byte cmd, String group_name, String master_filename, 
 	         String prefix_name, String file_ext_name, long file_size, UploadCallback callback, 
-           NameValuePair[] meta_list) throws IOException, MyException
+           NameValuePair[] meta_list) throws IOException, FastdfsException
 	{
 		byte[] header;
 		byte[] ext_name_bs;
@@ -792,7 +792,7 @@ public class StorageClient
 			
 			if (pkgInfo.body.length <= ProtoCommon.FDFS_GROUP_NAME_MAX_LEN)
 			{
-				throw new MyException("body length: " + pkgInfo.body.length + " <= " + ProtoCommon.FDFS_GROUP_NAME_MAX_LEN);
+				throw new FastdfsException("body length: " + pkgInfo.body.length + " <= " + ProtoCommon.FDFS_GROUP_NAME_MAX_LEN);
 			}
 	
 			new_group_name = new String(pkgInfo.body, 0, ProtoCommon.FDFS_GROUP_NAME_MAX_LEN).trim();
@@ -878,7 +878,7 @@ public class StorageClient
 	* @return return true for success, false for fail
 	*/
 	protected int do_append_file(String group_name, String appender_filename, 
-	         long file_size, UploadCallback callback) throws IOException, MyException
+	         long file_size, UploadCallback callback) throws IOException, FastdfsException
 	{
 		byte[] header;
 		boolean bNewConnection;
@@ -988,7 +988,7 @@ public class StorageClient
 	* @return return true for success, false for fail
 	*/
 	protected int do_modify_file(String group_name, String appender_filename, 
-	         long file_offset, long modify_size, UploadCallback callback) throws IOException, MyException
+	         long file_offset, long modify_size, UploadCallback callback) throws IOException, FastdfsException
 	{
 		byte[] header;
 		boolean bNewConnection;
@@ -1098,7 +1098,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return 0 for success, none zero for fail (error code)
 	*/
-	public int delete_file(String group_name, String remote_filename) throws IOException, MyException
+	public int delete_file(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1158,7 +1158,7 @@ public class StorageClient
 	*	@param appender_filename the appender filename
 	* @return 0 for success, none zero for fail (error code)
 	*/
-	public int truncate_file(String group_name, String appender_filename) throws IOException, MyException
+	public int truncate_file(String group_name, String appender_filename) throws IOException, FastdfsException
 	{
 		final long truncated_file_size = 0;
 		return this.truncate_file(group_name, appender_filename, truncated_file_size);
@@ -1172,7 +1172,7 @@ public class StorageClient
 	* @return 0 for success, none zero for fail (error code)
 	*/
 	public int truncate_file(String group_name, String appender_filename, 
-			long truncated_file_size) throws IOException, MyException
+			long truncated_file_size) throws IOException, FastdfsException
 	{
 		byte[] header;
 		boolean bNewConnection;
@@ -1268,7 +1268,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return file content/buff, return null if fail
 	*/
-	public byte[] download_file(String group_name, String remote_filename) throws IOException, MyException
+	public byte[] download_file(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 		final long file_offset = 0;
 		final long download_bytes = 0;
@@ -1284,7 +1284,7 @@ public class StorageClient
 	* @param download_bytes download bytes, 0 for remain bytes from offset
 	* @return file content/buff, return null if fail
 	*/
-	public byte[] download_file(String group_name, String remote_filename, long file_offset, long download_bytes) throws IOException, MyException
+	public byte[] download_file(String group_name, String remote_filename, long file_offset, long download_bytes) throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newReadableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1353,7 +1353,7 @@ public class StorageClient
 	* @return 0 success, return none zero errno if fail
 	*/
 	public int download_file(String group_name, String remote_filename, 
-	                  String local_filename) throws IOException, MyException
+	                  String local_filename) throws IOException, FastdfsException
 	{
 		final long file_offset = 0;
 		final long download_bytes = 0;
@@ -1372,7 +1372,7 @@ public class StorageClient
 	*/
 	public int download_file(String group_name, String remote_filename, 
 	                  long file_offset, long download_bytes, 
-	                  String local_filename) throws IOException, MyException
+	                  String local_filename) throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newReadableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1480,7 +1480,7 @@ public class StorageClient
 	* @return 0 success, return none zero errno if fail
 	*/
 	public int download_file(String group_name, String remote_filename, 
-	                  DownloadCallback callback) throws IOException, MyException
+	                  DownloadCallback callback) throws IOException, FastdfsException
 	{
 		final long file_offset = 0;
 		final long download_bytes = 0;
@@ -1499,7 +1499,7 @@ public class StorageClient
 	*/
 	public int download_file(String group_name, String remote_filename, 
 	                  long file_offset, long download_bytes, 
-	                  DownloadCallback callback) throws IOException, MyException
+	                  DownloadCallback callback) throws IOException, FastdfsException
 	{
 		int result;
 		boolean bNewConnection = this.newReadableStorageConnection(group_name, remote_filename);
@@ -1589,7 +1589,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return meta info array, return null if fail
 	*/
-	public NameValuePair[] get_metadata(String group_name, String remote_filename)throws IOException, MyException
+	public NameValuePair[] get_metadata(String group_name, String remote_filename)throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1663,7 +1663,7 @@ public class StorageClient
 	* @return 0 for success, !=0 fail (error code)
 	*/
 	public int set_metadata(String group_name, String remote_filename, 
-							NameValuePair[] meta_list, byte op_flag) throws IOException, MyException
+							NameValuePair[] meta_list, byte op_flag) throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1779,7 +1779,7 @@ public class StorageClient
 	*	@param remote_filename the filename
 	* @return FileInfo object for success, return null for fail
 	*/
-	public FileInfo get_file_info(String group_name, String remote_filename) throws IOException, MyException
+	public FileInfo get_file_info(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 	  if (remote_filename.length() < ProtoCommon.FDFS_FILE_PATH_LEN + ProtoCommon.FDFS_FILENAME_BASE64_LENGTH
 	                   + ProtoCommon.FDFS_FILE_EXT_NAME_MAX_LEN + 1)
@@ -1822,7 +1822,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return FileInfo object for success, return null for fail
 	*/
-	public FileInfo query_file_info(String group_name, String remote_filename) throws IOException, MyException
+	public FileInfo query_file_info(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 		boolean bNewConnection = this.newUpdatableStorageConnection(group_name, remote_filename);
 		Socket storageSocket = this.storageServer.getSocket();
@@ -1922,7 +1922,7 @@ public class StorageClient
 	* @param group_name the group name to upload file to, can be empty
 	* @return true if create a new connection
 	*/
-	protected boolean newWritableStorageConnection(String group_name) throws IOException, MyException
+	protected boolean newWritableStorageConnection(String group_name) throws IOException, FastdfsException
 	{
 		if (this.storageServer != null)
 		{
@@ -1934,7 +1934,7 @@ public class StorageClient
   		this.storageServer = tracker.getStoreStorage(this.trackerServer, group_name);
   		if (this.storageServer == null)
   		{
-  			throw new MyException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
+  			throw new FastdfsException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
   		}
   		return true;
 		}
@@ -1946,7 +1946,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return true if create a new connection
 	*/
-	protected boolean newReadableStorageConnection(String group_name, String remote_filename) throws IOException, MyException
+	protected boolean newReadableStorageConnection(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 		if (this.storageServer != null)
 		{
@@ -1958,7 +1958,7 @@ public class StorageClient
   		this.storageServer = tracker.getFetchStorage(this.trackerServer, group_name, remote_filename);
   		if (this.storageServer == null)
   		{
-  			throw new MyException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
+  			throw new FastdfsException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
   		}
   		return true;
 		}
@@ -1970,7 +1970,7 @@ public class StorageClient
 	*	@param remote_filename filename on storage server
 	* @return true if create a new connection
 	*/
-	protected boolean newUpdatableStorageConnection(String group_name, String remote_filename) throws IOException, MyException
+	protected boolean newUpdatableStorageConnection(String group_name, String remote_filename) throws IOException, FastdfsException
 	{
 		if (this.storageServer != null)
 		{
@@ -1982,7 +1982,7 @@ public class StorageClient
   		this.storageServer = tracker.getUpdateStorage(this.trackerServer, group_name, remote_filename);
   		if (this.storageServer == null)
   		{
-  			throw new MyException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
+  			throw new FastdfsException("getStoreStorage fail, errno code: " + tracker.getErrorCode());
   		}
   		return true;
 		}
