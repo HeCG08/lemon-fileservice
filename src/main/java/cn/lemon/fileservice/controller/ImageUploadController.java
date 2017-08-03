@@ -1,11 +1,9 @@
 package cn.lemon.fileservice.controller;
 
-import cn.lemon.fileservice.service.IFileClient;
-import cn.lemon.framework.core.BasicController;
-import cn.lemon.framework.encrypt.Base64Util;
-import cn.lemon.framework.response.ResultMessage;
-import cn.lemon.framework.response.ResultResponse;
-import cn.lemon.framework.utils.FileUtil;
+import java.net.URLEncoder;
+
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.net.URLEncoder;
+import cn.lemon.fileservice.service.IFileClient;
+import cn.lemon.framework.core.BasicController;
+import cn.lemon.framework.encrypt.Base64Util;
+import cn.lemon.framework.response.ResultMessage;
+import cn.lemon.framework.response.ResultResponse;
+import cn.lemon.framework.utils.FileUtil;
 
 /**
  * Created by lonyee on 2017/4/12.
@@ -36,7 +37,7 @@ public class ImageUploadController extends BasicController {
         try {
             // 获取扩展名
             String ext = FileUtil.getExtension(file.getOriginalFilename());
-            String fileId = fileClient.uploadFile(file.getBytes(), ext);
+            String fileId = fileClient.uploadFile(file.getBytes(), file.getSize(), ext);
             String fileName = fileId.split("\\.")[0];
             String fileNameBase64 = Base64Util.encode(fileName.getBytes("UTF8"));
             String encodeFileName = URLEncoder.encode(fileNameBase64, "UTF-8");
@@ -60,7 +61,8 @@ public class ImageUploadController extends BasicController {
             logger.debug("base64 image: "+ fileName);
             // 获取扩展名
             String ext = FileUtil.getExtension(fileName);
-            String fileId = fileClient.uploadFile(Base64Util.decode(data.substring(data.indexOf(",")+1)), ext);
+            byte[] bt = Base64Util.decode(data.substring(data.indexOf(",")+1));
+            String fileId = fileClient.uploadFile(bt, bt.length, ext);
             String file = fileId.split("\\.")[0];
             String fileNameBase64 = Base64Util.encode(file.getBytes("UTF8"));
             String encodeFileName = URLEncoder.encode(fileNameBase64, "UTF-8");

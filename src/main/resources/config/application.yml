@@ -13,3 +13,9 @@ fdfs:
   networkTimeout: 30
   trackerServers:
     - 10.200.6.3:22122
+    
+alioss:
+  bucketName: lemon
+  endPoint: http://oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAImDfXBs2yYMrw
+  accessKeySecret: LZ1URxLzbWJIdaxxC9MsWqDQazNwlV

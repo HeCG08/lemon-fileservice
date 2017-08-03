@@ -1,4 +1,4 @@
-package cn.lemon.fileservice.service.disk;
+package cn.lemon.fileservice.service.impl;
 
 import cn.lemon.fileservice.service.IFileClient;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class DiskClient implements IFileClient {
      * 上传文件
      */
     @Override
-    public String uploadFile(byte[] fileBytes, String ext) throws IOException {
+    public String uploadFile(byte[] fileBytes, long size, String ext) throws IOException {
         return null;
     }
 

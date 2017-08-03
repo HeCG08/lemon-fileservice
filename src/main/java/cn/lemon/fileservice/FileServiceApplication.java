@@ -2,6 +2,7 @@ package cn.lemon.fileservice;
 
 
 import org.csource.fastdfs.FDFSConfig;
+import org.csource.oss.AliossConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,4 +42,10 @@ public class FileServiceApplication {
     public FDFSConfig fdfsConfig() {
         return new FDFSConfig();
     }
+    
+    @Bean(name = "aliossConfig")
+    public AliossConfig aliossConfig() {
+        return new AliossConfig();
+    }
+    
 }

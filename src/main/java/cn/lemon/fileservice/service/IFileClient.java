@@ -10,7 +10,7 @@ public interface IFileClient {
     /**
      * 上传文件
      */
-    String uploadFile(byte fileBytes[], String ext) throws IOException;
+    String uploadFile(byte fileBytes[], long size, String ext) throws IOException;
     /**
      * 查看下载文件
      */

@@ -1,4 +1,4 @@
-package cn.lemon.fileservice.service.fdfs;
+package cn.lemon.fileservice.service.impl;
 
 import cn.lemon.fileservice.service.IFileClient;
 import cn.lemon.framework.utils.ImageUtil;
@@ -48,7 +48,7 @@ public class FastDFSClient implements IFileClient {
      * 上传文件
      */
     @Override
-    public String uploadFile(byte[] fileBytes, String ext) throws IOException {
+    public String uploadFile(byte[] fileBytes, long size, String ext) throws IOException {
     	
         TrackerClient tracker = new TrackerClient();
         TrackerServer trackerServer = tracker.getConnection();
